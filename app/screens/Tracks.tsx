@@ -1,6 +1,7 @@
+import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, View, Text } from 'react-native'
+import { ScrollView, StyleSheet, View, Text, ToastAndroid } from 'react-native'
 
 import Track from '../components/Track'
 import useAccessToken from '../hooks/useAccessToken'
@@ -9,6 +10,7 @@ import { palette } from '../theme/palette'
 
 export default function Tracks() {
     const [albums, setAlbums] = useState<APIAlbum[]>([])
+    const navigation = useNavigation()
     async function fetchArtists() {
         const token = await useAccessToken()
         axios({
@@ -23,7 +25,21 @@ export default function Tracks() {
                 setAlbums(response.data.items)
             })
             .catch(function (error) {
-                console.log(error)
+                if (error.response) {
+                    switch (error.response.status) {
+                        case 400:
+                            console.log('400')
+                            ToastAndroid.show('Bad Request', 100)
+                            break
+                        case 401:
+                            console.log('401')
+                            ToastAndroid.show('User Token expired', 100)
+                            navigation.navigate('Login')
+                            break
+                    }
+                } else {
+                    console.log(error)
+                }
             })
     }
     useEffect(() => {
