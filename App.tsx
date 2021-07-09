@@ -1,21 +1,23 @@
-import { StatusBar } from 'expo-status-bar'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import AppLoading from 'expo-app-loading'
+import { useFonts } from 'expo-font'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+
+import Root from './app/navigators/Root'
 
 export default function App() {
-    return (
-        <View style={styles.container}>
-            <Text>Open up App.tsx to start working on your app!</Text>
-            <StatusBar style="auto" />
-        </View>
-    )
-}
+    const [loaded, error] = useFonts({
+        Regular: require('./assets/fonts/Poppins-Regular.ttf'),
+        Medium: require('./assets/fonts/Poppins-Medium.ttf'),
+    })
+    if (error) {
+        console.log('Could not load fonts')
+    }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-})
+    const token = AsyncStorage.getItem('UserKey')
+
+    if (!loaded) {
+        return <AppLoading />
+    }
+    return <Root initalRouteName={token !== null ? 'Main' : 'Login'} />
+}
