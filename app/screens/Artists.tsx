@@ -78,6 +78,8 @@ function Artists() {
                     style={{
                         color: palette.white,
                         fontSize: 25,
+                        alignSelf: 'center',
+                        paddingTop: 10,
                         fontFamily: 'Medium',
                     }}
                 >
