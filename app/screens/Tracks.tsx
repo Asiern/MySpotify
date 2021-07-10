@@ -13,11 +13,11 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import Track from '../components/Track'
 import useAccessToken from '../hooks/useAccessToken'
-import { APIAlbum } from '../interface'
+import { APITrack } from '../interface'
 import { palette } from '../theme/palette'
 
 export default function Tracks() {
-    const [tracks, setTracks] = useState<APIAlbum[]>([])
+    const [tracks, setTracks] = useState<APITrack[]>([])
     const [refreshing, setRefreshing] = useState(false)
     const wait = (timeout: number) => {
         return new Promise((resolve) => setTimeout(resolve, timeout))
@@ -78,6 +78,8 @@ export default function Tracks() {
                         color: palette.white,
                         fontSize: 25,
                         fontFamily: 'Medium',
+                        alignSelf: 'center',
+                        paddingTop: 10,
                     }}
                 >
                     Tracks

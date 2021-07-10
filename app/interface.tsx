@@ -21,7 +21,7 @@ interface image {
     width: number
 }
 
-export interface APIAlbum {
+export interface APITrack {
     album: {
         album_type: string
         artists: artist[]
